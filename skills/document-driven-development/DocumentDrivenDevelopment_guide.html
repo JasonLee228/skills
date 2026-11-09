@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Driven Development 스킬 - 사용 가이드</title>
+    <style>
+        :root {
+            --primary: #0EA5E9;
+            --primary-light: #E0F2FE;
+            --success: #22C55E;
+            --success-light: #F0FDF4;
+            --warning: #F59E0B;
+            --warning-light: #FFFBEB;
+            --danger: #EF4444;
+            --danger-light: #FEF2F2;
+            --purple: #8B5CF6;
+            --purple-light: #F5F3FF;
+            --teal: #14B8A6;
+            --teal-light: #F0FDFA;
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E1;
+            --gray-500: #64748B;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1E293B;
+            --gray-900: #0F172A;
+            --border-radius: 10px;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.7;
+            font-size: 14.5px;
+        }
+
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0369A1 0%, #0EA5E9 55%, #14B8A6 100%);
+            border-radius: 16px;
+            padding: 44px 44px 36px;
+            color: white;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -54px;
+            right: -54px;
+            width: 220px;
+            height: 220px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: 36%;
+            width: 260px;
+            height: 260px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: 14px;
+        }
+
+        .hero h1 {
+            font-size: 28px;
+            font-weight: 750;
+            margin-bottom: 10px;
+            line-height: 1.3;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero p {
+            font-size: 14.5px;
+            opacity: 0.9;
+            max-width: 650px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-tag {
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 20px;
+            padding: 3px 11px;
+            font-size: 12px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .section-number {
+            width: 28px;
+            height: 28px;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            padding: 20px 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .card + .card {
+            margin-top: 12px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        @media (max-width: 720px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .mini-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            padding: 16px 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .mini-card h3 {
+            font-size: 14px;
+            color: var(--gray-900);
+            margin-bottom: 6px;
+        }
+
+        .mini-card p {
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+
+        .info-box {
+            border-radius: var(--border-radius);
+            padding: 14px 18px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .info-box .icon {
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .info-box.blue {
+            background: var(--primary-light);
+            border: 1px solid #BAE6FD;
+        }
+
+        .info-box.green {
+            background: var(--success-light);
+            border: 1px solid #BBF7D0;
+        }
+
+        .info-box.yellow {
+            background: var(--warning-light);
+            border: 1px solid #FDE68A;
+        }
+
+        .info-box.purple {
+            background: var(--purple-light);
+            border: 1px solid #DDD6FE;
+        }
+
+        .info-box.teal {
+            background: var(--teal-light);
+            border: 1px solid #99F6E4;
+        }
+
+        .info-box.orange {
+            background: #FFF7ED;
+            border: 1px solid #FED7AA;
+        }
+
+        .info-box.red {
+            background: var(--danger-light);
+            border: 1px solid #FECACA;
+        }
+
+        .info-box-title {
+            font-weight: 650;
+            font-size: 13.5px;
+            color: var(--gray-800);
+            margin-bottom: 3px;
+        }
+
+        .info-box-desc {
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+
+        thead th {
+            background: var(--gray-100);
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 650;
+            color: var(--gray-600);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        tbody td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--gray-100);
+            color: var(--gray-700);
+            vertical-align: top;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 650;
+            white-space: nowrap;
+        }
+
+        .badge-blue {
+            background: var(--primary-light);
+            color: #0369A1;
+        }
+
+        .badge-green {
+            background: var(--success-light);
+            color: #15803D;
+        }
+
+        .badge-purple {
+            background: var(--purple-light);
+            color: var(--purple);
+        }
+
+        .badge-orange {
+            background: #FFF7ED;
+            color: #C2410C;
+        }
+
+        .badge-teal {
+            background: var(--teal-light);
+            color: var(--teal);
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .step {
+            display: flex;
+            gap: 16px;
+            padding: 0 0 22px;
+            position: relative;
+        }
+
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 34px;
+            bottom: 0;
+            width: 2px;
+            background: var(--gray-200);
+        }
+
+        .step-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-dot.auto {
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .step-dot.doc {
+            border-color: var(--teal);
+            color: var(--teal);
+        }
+
+        .step-dot.review {
+            border-color: var(--purple);
+            color: var(--purple);
+        }
+
+        .step-dot.warn {
+            border-color: var(--warning);
+            color: var(--warning);
+        }
+
+        .step-body {
+            flex: 1;
+            padding-top: 4px;
+        }
+
+        .step-title {
+            font-weight: 650;
+            color: var(--gray-800);
+            margin-bottom: 5px;
+            font-size: 14.5px;
+        }
+
+        .step-desc {
+            color: var(--gray-600);
+            font-size: 13.5px;
+        }
+
+        .label {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .label.ask {
+            background: var(--primary-light);
+            color: #0369A1;
+        }
+
+        .label.auto {
+            background: var(--success-light);
+            color: #15803D;
+        }
+
+        .label.doc {
+            background: var(--teal-light);
+            color: var(--teal);
+        }
+
+        .label.review {
+            background: var(--purple-light);
+            color: var(--purple);
+        }
+
+        .trigger-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .trigger-chip {
+            background: var(--primary-light);
+            border: 1px solid #BAE6FD;
+            color: #0369A1;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .trigger-chip.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        pre {
+            background: var(--gray-900);
+            color: #E2E8F0;
+            border-radius: 8px;
+            padding: 14px 18px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: 12.5px;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: 12.5px;
+            background: var(--gray-100);
+            color: #0369A1;
+            padding: 1px 6px;
+            border-radius: 4px;
+        }
+
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        .file-tree {
+            background: var(--gray-900);
+            color: #94A3B8;
+            border-radius: 8px;
+            padding: 16px 20px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 12.5px;
+            line-height: 1.9;
+        }
+
+        .tree-folder {
+            color: #7DD3FC;
+        }
+
+        .tree-file {
+            color: #E2E8F0;
+        }
+
+        .tree-desc {
+            color: #64748B;
+            font-size: 11.5px;
+        }
+
+        .footer {
+            text-align: center;
+            color: var(--gray-500);
+            font-size: 12.5px;
+            margin-top: 48px;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <header class="hero">
+            <div class="hero-badge">Skill Guide</div>
+            <h1>Document Driven Development</h1>
+            <p>설계는 승인된 계약과 이유를, 구현 기록은 현재 상태와 실제 증거를 보존합니다.</p>
+        </header>
+        <section class="section">
+            <h2 class="section-title">시작</h2>
+            <p><a href="SKILL.md">SKILL.md</a>가 실행 기준의 진입점입니다. 이 페이지는 안내용이며 세부 규칙을 중복 정의하지 않습니다.</p>
+            <p>설계·TODO·검증안을 함께 승인받고, 직접 수행 또는 순차·병렬 위임으로 구현합니다. 이미 받은 승인은 재사용하며 결과를 검증·리뷰한 뒤 기록·stage·보고합니다.</p>
+        </section>
+        <section class="section">
+            <h2 class="section-title">필요한 가이드</h2>
+            <ul>
+                <li><a href="references/workflow-guide.md">실행 흐름</a> — 승인, 변경 판단, stage, 외부 반영, 완료와 재개</li>
+                <li><a href="references/subagent-delegation-guide.md">SubAgent 위임과 통합</a> — 역할, 파일·공유 자원 소유권, 결과 수용</li>
+                <li><a href="references/verification-guide.md">검증과 리뷰</a> — 실행 증거, 실패 분리, 코드·주석 검토</li>
+                <li><a href="references/record-routing-guide.md">기록 위치</a> — 현재 상태와 이력, 선택 문서</li>
+                <li><a href="references/setup-guide.md">초기 설정</a> · <a href="references/risk-guide.md">위험도</a> · <a href="references/naming-and-reporting-guide.md">파일명·보고</a> · <a href="references/api-documentation-guide.md">API 명세</a></li>
+            </ul>
+        </section>
+        <section class="section">
+            <h2 class="section-title">템플릿과 예시</h2>
+            <p>기본 문서는 <a href="templates/plan.md">설계</a>와 <a href="templates/implementation.md">구현 기록</a>입니다. 해당 없는 선택 항목은 생략합니다.</p>
+            <p>Task 목록과 상태는 <a href="templates/roadmap.md">로드맵</a>에 한 줄씩 남깁니다. Task 번호는 로드맵이 발급합니다. 상세 내용은 설계와 구현 기록에만 둡니다.</p>
+            <p><a href="templates/review-record.md">리뷰 기록</a>과 <a href="templates/final-report.md">최종 보고</a>는 독립 보존이 필요할 때 사용합니다. 상세 증거는 한 곳에 두고 링크로 연결합니다.</p>
+            <p><a href="examples/README.md">가상 작성 예시 보기</a></p>
+        </section>
+        <footer class="footer">실제 승인과 검증 결과를 확인하고 현재 상태를 갱신합니다.</footer>
+    </main>
+</body>
+</html>
