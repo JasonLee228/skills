@@ -13,6 +13,34 @@ Personal agent skills. Each skill starts at `skills/<name>/SKILL.md`. The skill 
 
 ## Install
 
+### skills CLI (recommended)
+
+The [skills CLI](https://github.com/vercel-labs/skills) finds the skills in this repository and installs them into your agent's skills directory. It needs Node 18+.
+
+```bash
+# Pick from the full list (interactive)
+npx skills add JasonLee228/skills
+```
+
+```bash
+# Install every skill
+npx skills add JasonLee228/skills --all
+```
+
+```bash
+# Install one skill
+npx skills add JasonLee228/skills --skill document-driven-development
+```
+
+```bash
+# Choose the agent and scope: global (-g); without -g, the current project
+npx skills add JasonLee228/skills --skill pyjenkins --agent claude-code -g
+```
+
+`--agent` accepts `claude-code`, `cursor`, `codex` and others; repeat it for several agents. Update installed skills with `npx skills update` and list them with `npx skills list`.
+
+### Manual copy
+
 Copy a skill folder into the skills directory your agent reads.
 
 ```bash
