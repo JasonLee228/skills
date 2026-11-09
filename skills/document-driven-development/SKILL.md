@@ -1,6 +1,7 @@
 ---
 name: document-driven-development
 description: Use when non-trivial feature work, bug fixes, refactoring, or API/DB changes need documented scope, design decisions, and verification evidence, or when the user explicitly requests document-driven development. Skip trivial edits unless requested.
+version: 1.0.0
 ---
 
 # Document Driven Development
