@@ -1,0 +1,75 @@
+{
+  "version": "1.0.0",
+  "source": "D:/git_workspace/mcp-docmost",
+  "auth": {
+    "primary": "Cookie: authToken=<DOCMOST_AUTH_TOKEN>",
+    "fallback": "POST /api/auth/login with DOCMOST_EMAIL and DOCMOST_PASSWORD"
+  },
+  "tools": [
+    { "name": "docmost_search", "group": "search", "method": "POST", "endpoint": "search", "body": { "query": "query", "spaceId": "space_id", "limit": "limit|20", "offset": "offset|0" } },
+    { "name": "docmost_search_suggest", "group": "search", "method": "POST", "endpoint": "search/suggest", "body": { "query": "query" } },
+    { "name": "docmost_search_share", "group": "search", "method": "POST", "endpoint": "search/share-search", "body": { "query": "query", "shareId": "share_id" } },
+
+    { "name": "docmost_get_page", "group": "pages", "method": "POST", "endpoint": "pages/info", "body": { "pageId": "page_id" }, "notes": "Add format when markdown/html/json output is needed." },
+    { "name": "docmost_list_pages", "group": "pages", "method": "POST", "endpoint": "pages/sidebar-pages", "body": { "spaceId": "space_id", "pageId": "parent_page_id", "page": "page|1" } },
+    { "name": "docmost_recent_pages", "group": "pages", "method": "POST", "endpoint": "pages/recent", "body": { "spaceId": "space_id" } },
+    { "name": "docmost_create_page", "group": "pages", "method": "POST", "endpoint": "pages/create", "body": { "title": "title", "spaceId": "space_id", "parentPageId": "parent_page_id" }, "notes": "If content_markdown is provided, call pages/update after create." },
+    { "name": "docmost_update_page", "group": "pages", "method": "POST", "endpoint": "pages/update", "body": { "pageId": "page_id", "title": "title", "content": "content_markdown", "format": "markdown", "operation": "replace" } },
+    { "name": "docmost_delete_page", "group": "pages", "method": "POST", "endpoint": "pages/delete", "body": { "pageId": "page_id" }, "dangerous": true },
+    { "name": "docmost_restore_page", "group": "pages", "method": "POST", "endpoint": "pages/restore", "body": { "pageId": "page_id" } },
+    { "name": "docmost_trash_pages", "group": "pages", "method": "POST", "endpoint": "pages/trash", "body": { "spaceId": "space_id" } },
+    { "name": "docmost_duplicate_page", "group": "pages", "method": "POST", "endpoint": "pages/duplicate", "body": { "pageId": "page_id" } },
+    { "name": "docmost_move_page", "group": "pages", "method": "POST", "endpoint": "pages/move", "body": { "pageId": "page_id", "parentPageId": "parent_page_id", "position": "position|a0000" } },
+    { "name": "docmost_move_page_to_space", "group": "pages", "method": "POST", "endpoint": "pages/move-to-space", "body": { "pageId": "page_id", "spaceId": "space_id" } },
+    { "name": "docmost_breadcrumbs", "group": "pages", "method": "POST", "endpoint": "pages/breadcrumbs", "body": { "pageId": "page_id" } },
+    { "name": "docmost_export_page", "group": "pages", "method": "POST_BINARY", "endpoint": "pages/export", "body": { "pageId": "page_id", "format": "format|markdown" } },
+    { "name": "docmost_get_page_history", "group": "pages", "method": "POST", "endpoint": "pages/history", "body": { "pageId": "page_id", "limit": "limit|20" } },
+    { "name": "docmost_get_page_history_info", "group": "pages", "method": "POST", "endpoint": "pages/history/info", "body": { "pageId": "page_id", "historyId": "history_id" } },
+    { "name": "docmost_import_page", "group": "pages", "method": "POST_MULTIPART", "endpoint": "pages/import", "body": { "file": "file_path", "spaceId": "space_id", "parentPageId": "parent_page_id" } },
+    { "name": "docmost_sidebar_pages", "group": "pages", "method": "POST", "endpoint": "pages/sidebar-pages", "body": { "spaceId": "space_id", "pageId": "page_id" } },
+    { "name": "docmost_export_space", "group": "pages", "method": "POST_BINARY", "endpoint": "spaces/export", "body": { "spaceId": "space_id", "format": "format|markdown", "includeAttachments": "include_attachments|false" } },
+
+    { "name": "docmost_list_spaces", "group": "spaces", "method": "POST", "endpoint": "spaces", "body": { "limit": "limit|50", "cursor": "cursor" } },
+    { "name": "docmost_get_space", "group": "spaces", "method": "POST", "endpoint": "spaces/info", "body": { "spaceId": "space_id" } },
+    { "name": "docmost_create_space", "group": "spaces", "method": "POST", "endpoint": "spaces/create", "body": { "name": "name", "slug": "slug", "description": "description" } },
+    { "name": "docmost_update_space", "group": "spaces", "method": "POST", "endpoint": "spaces/update", "body": { "spaceId": "space_id", "name": "name", "slug": "slug", "description": "description" } },
+    { "name": "docmost_delete_space", "group": "spaces", "method": "POST", "endpoint": "spaces/delete", "body": { "spaceId": "space_id" }, "dangerous": true },
+    { "name": "docmost_list_space_members", "group": "spaces", "method": "POST", "endpoint": "spaces/members", "body": { "spaceId": "space_id", "limit": "limit|50", "cursor": "cursor" } },
+    { "name": "docmost_add_space_member", "group": "spaces", "method": "POST", "endpoint": "spaces/members/add", "body": { "spaceId": "space_id", "userIds": "user_ids", "groupIds": "group_ids", "role": "role" } },
+    { "name": "docmost_remove_space_member", "group": "spaces", "method": "POST", "endpoint": "spaces/members/remove", "body": { "spaceId": "space_id", "userId": "user_id", "groupId": "group_id" }, "dangerous": true },
+    { "name": "docmost_change_space_member_role", "group": "spaces", "method": "POST", "endpoint": "spaces/members/change-role", "body": { "spaceId": "space_id", "userId": "user_id", "groupId": "group_id", "role": "role" } },
+
+    { "name": "docmost_list_comments", "group": "comments", "method": "POST", "endpoint": "comments", "body": { "pageId": "page_id", "limit": "limit|50" } },
+    { "name": "docmost_get_comment", "group": "comments", "method": "POST", "endpoint": "comments/info", "body": { "commentId": "comment_id" } },
+    { "name": "docmost_add_comment", "group": "comments", "method": "POST", "endpoint": "comments/create", "body": { "pageId": "page_id", "content": "content", "parentCommentId": "parent_comment_id" } },
+    { "name": "docmost_update_comment", "group": "comments", "method": "POST", "endpoint": "comments/update", "body": { "commentId": "comment_id", "content": "content" } },
+    { "name": "docmost_delete_comment", "group": "comments", "method": "POST", "endpoint": "comments/delete", "body": { "commentId": "comment_id" }, "dangerous": true },
+    { "name": "docmost_resolve_comment", "group": "comments", "method": "POST", "endpoint": "comments/resolve", "body": { "commentId": "comment_id", "resolved": "resolved" } },
+
+    { "name": "docmost_list_groups", "group": "groups", "method": "POST", "endpoint": "groups", "body": { "limit": "limit|50", "cursor": "cursor" } },
+    { "name": "docmost_get_group", "group": "groups", "method": "POST", "endpoint": "groups/info", "body": { "groupId": "group_id" } },
+    { "name": "docmost_create_group", "group": "groups", "method": "POST", "endpoint": "groups/create", "body": { "name": "name", "description": "description" } },
+    { "name": "docmost_update_group", "group": "groups", "method": "POST", "endpoint": "groups/update", "body": { "groupId": "group_id", "name": "name", "description": "description" } },
+    { "name": "docmost_delete_group", "group": "groups", "method": "POST", "endpoint": "groups/delete", "body": { "groupId": "group_id" }, "dangerous": true },
+    { "name": "docmost_list_group_members", "group": "groups", "method": "POST", "endpoint": "groups/members", "body": { "groupId": "group_id", "limit": "limit|50", "cursor": "cursor" } },
+    { "name": "docmost_add_group_member", "group": "groups", "method": "POST", "endpoint": "groups/members/add", "body": { "groupId": "group_id", "userIds": "user_ids" } },
+    { "name": "docmost_remove_group_member", "group": "groups", "method": "POST", "endpoint": "groups/members/remove", "body": { "groupId": "group_id", "userId": "user_id" }, "dangerous": true },
+
+    { "name": "docmost_list_shares", "group": "shares", "method": "POST", "endpoint": "shares", "body": { "pageId": "page_id" } },
+    { "name": "docmost_get_share", "group": "shares", "method": "POST", "endpoint": "shares/info", "body": { "shareId": "share_id" } },
+    { "name": "docmost_get_share_for_page", "group": "shares", "method": "POST", "endpoint": "shares/for-page", "body": { "pageId": "page_id" } },
+    { "name": "docmost_create_share", "group": "shares", "method": "POST", "endpoint": "shares/create", "body": { "pageId": "page_id" } },
+    { "name": "docmost_update_share", "group": "shares", "method": "POST", "endpoint": "shares/update", "body": { "shareId": "share_id", "includeChildPages": "include_child_pages" } },
+    { "name": "docmost_delete_share", "group": "shares", "method": "POST", "endpoint": "shares/delete", "body": { "shareId": "share_id" }, "dangerous": true },
+    { "name": "docmost_share_page_tree", "group": "shares", "method": "POST", "endpoint": "shares/tree", "body": { "shareId": "share_id" } },
+
+    { "name": "docmost_get_current_user", "group": "workspace", "method": "POST", "endpoint": "users/me", "body": {} },
+    { "name": "docmost_list_members", "group": "workspace", "method": "POST", "endpoint": "workspace/members", "body": { "limit": "limit|50", "cursor": "cursor" } },
+    { "name": "docmost_get_workspace", "group": "workspace", "method": "POST", "endpoint": "workspace/info", "body": {} },
+
+    { "name": "docmost_upload_file", "group": "files", "method": "POST_MULTIPART", "endpoint": "files/upload", "body": { "file": "file_path", "pageId": "page_id" }, "notes": "After upload, insert markdown reference with pages/update append." },
+    { "name": "docmost_health", "group": "system", "method": "GET", "endpoint": "health", "body": {} },
+    { "name": "docmost_version", "group": "system", "method": "POST", "endpoint": "version", "body": {} }
+  ]
+}
+

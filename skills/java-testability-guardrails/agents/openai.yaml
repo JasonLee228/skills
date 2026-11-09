@@ -1,0 +1,4 @@
+interface:
+  display_name: "Java Testability Guardrails"
+  short_description: "Protect Java design from test-only access"
+  default_prompt: "Use $java-testability-guardrails to review this Java change."
