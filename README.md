@@ -18,12 +18,17 @@
 [skills CLI](https://github.com/vercel-labs/skills)가 이 레포에서 스킬을 찾아 에이전트 디렉터리에 설치한다. Node 18+가 필요하다.
 
 ```bash
+# 설치 없이 이 레포의 스킬 목록만 확인
+npx skills add JasonLee228/skills --list
+```
+
+```bash
 # 전체 목록에서 골라 설치 (대화형)
 npx skills add JasonLee228/skills
 ```
 
 ```bash
-# 모든 스킬 설치
+# 모든 스킬을 감지된 모든 에이전트에 설치 (--skill '*' --agent '*' -y 와 같다)
 npx skills add JasonLee228/skills --all
 ```
 
@@ -37,7 +42,7 @@ npx skills add JasonLee228/skills --skill document-driven-development
 npx skills add JasonLee228/skills --skill pyjenkins --agent claude-code -g
 ```
 
-`--agent`는 `claude-code`, `cursor`, `codex` 등을 받는다. 여러 개는 반복 지정한다. 설치한 스킬은 `npx skills update`로 갱신하고, `npx skills list`로 확인한다.
+`--agent`는 `claude-code`, `cursor`, `codex` 등을 받고, 여러 개는 공백으로 나열한다(`--agent claude-code cursor`). `--skill`도 같다. 기본은 symlink 설치이며 실제 파일 복사가 필요하면 `--copy`를 붙인다. 설치한 스킬은 `npx skills update`로 갱신하고, `npx skills list`로 확인한다.
 
 ### 수동 복사
 
